@@ -1,0 +1,109 @@
+# Department management system
+
+class Department:
+    dept_count = 0  # Class-level counter for total departments
+    lst = []        # List to store department dictionaries
+    dept_name = []  # List of department names for quick lookup
+    dept_ID = []    # List of department IDs for quick lookup
+
+    def __init__(self, dept_name, dept_ID, dept_HoD, dept_location):
+        self.dept_name = dept_name
+        self.dept_ID = dept_ID
+        self.dept_HoD = dept_HoD
+        self.dept_location = dept_location
+        Department.dept_count += 1
+
+    def log_of_dept(self):
+        """Log current department into class-level storage."""
+        dept_dict = {
+            "dept_ID": self.dept_ID,
+            "dept_name": self.dept_name,
+            "dept_HoD": self.dept_HoD,
+            "dept_loc": self.dept_location
+        }
+        Department.lst.append(dept_dict)
+        Department.dept_name.append(self.dept_name)
+        Department.dept_ID.append(self.dept_ID)
+
+    def search_dept_name(self, search_name):
+        """Search department by name."""
+        if search_name not in Department.dept_name:
+            print("Department name not found")
+            return
+        for i in Department.lst:
+            if search_name == i["dept_name"]:
+                print("Department found:")
+                self.display_helper([i])
+
+    def search_dept_ID(self, search_ID):
+        """Search department by ID."""
+        for i in Department.lst:
+            if search_ID == i["dept_ID"]:
+                print("Department found:")
+                self.display_helper([i])
+                return
+        print("Department ID not found.")
+
+    def display(self):
+        """Display all department data."""
+        print("\nDisplaying all department details:\n")
+        self.display_helper(Department.lst)
+
+    def display_helper(self, lst):
+        """Helper method to print department info."""
+        for i in lst:
+            for key, value in i.items():
+                print(f"{key} : {value}")
+            print("-----------------------------")
+
+    def department_count(self):
+        """Print the total number of departments."""
+        print("Total number of departments:", Department.dept_count)
+
+
+# Main program
+n = int(input("How many department details you want to enter: "))
+for i in range(n):
+    print(f"\nEntering details for department {i + 1}:")
+    ID = int(input("Enter department ID: "))
+    dept_name = input("Enter department name: ")
+    dept_HoD = input("Enter department HoD: ")
+    dept_Location = input("Enter department location: ")
+    emp = Department(dept_name, ID, dept_HoD, dept_Location)
+    emp.log_of_dept()
+    print("----------------------------------")
+
+decision = input("\nDo you want to know anything further (yes/no)? : ")
+if decision.lower() == "yes":
+    print("\n------------------------------------------------------")
+    print("                   Information Menu                   ")
+    print("------------------------------------------------------")
+    print("Press 1 : To display department details by name")
+    print("Press 2 : To display department details by ID")
+    print("Press 3 : To display all department details")
+    print("Press 4 : To know total number of departments")
+    print("------------------------------------------------------")
+
+    choice = int(input("Enter your choice: "))
+
+    if choice == 1:
+        search_key = input("Enter Department name to search: ")
+        print("------------------------------------------------------")
+        emp.search_dept_name(search_key)
+
+    elif choice == 2:
+        search_key = int(input("Enter Department ID to search: "))
+        print("------------------------------------------------------")
+        emp.search_dept_ID(search_key)
+
+    elif choice == 3:
+        print("------------------------------------------------------")
+        emp.display()
+
+    elif choice == 4:
+        print("------------------------------------------------------")
+        emp.department_count()
+    else:
+        print("Invalid choice. Please enter a number between 1 and 4.")
+else:
+    print("Exiting the program. Goodbye!")
