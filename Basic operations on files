@@ -1,0 +1,17 @@
+#writing to a file
+text = input("Enter text to store in file: ")
+with open('Assignment.txt', 'w') as f:
+    f.write(text)
+
+# Read and print the content of the file
+with open('Assignment.txt', 'r') as f:
+    print(f.read())
+
+#Appending the content into the file
+text = input("Enter content to append into the file :")
+with open('Assignment.txt','a') as f:
+    f.write(text)
+
+# Read and print the updated content of the file
+with open('Assignment.txt', 'r') as f:
+    print(" ",f.read())
